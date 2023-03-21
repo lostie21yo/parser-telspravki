@@ -18,11 +18,11 @@ links = (
 )
 
 exception_symbol = ("К", "П", "С") # исключения (обработать вручную)
-alphabet = "0123456789абвгдеёжзийклмнопрстуфхцчшщъыьэюя".upper() # Общаий алфавит
-done = "0123456789".upper() # сохранение завершенных букв алфавита
+alphabet = "0123456789абвгдеёжзийклмнопрстуфхцчшщъыьэюя".upper() # Общий алфавит
+done = "0123456789абвгдеёжзийклмнопрстуфхцчшщъыьэюя".upper() # сохранение завершенных букв алфавита (за исключением отдельных букв в exception symbol)
 
 def parse():
-    main_r = requests.get(links[0][1])
+    main_r = requests.get(links[3][1])
     html = BS(main_r.content, 'html.parser')
 
     # Страница города с улицами
@@ -30,7 +30,9 @@ def parse():
     for col in html.select(".col"):
         streets = col.select("a")
         for street in streets:
-            if street.text[0] in alphabet[10:20] and street.text[0] not in done and street.text[0] not in exception_symbol:
+            # if street.text.startswith("Кол"):
+            if street.text[0] == "С":
+            # if street.text[0] not in done and street.text[0] not in exception_symbol: 
                 print(f"=== {street.text} ===")
                 street_r = requests.get(f"https:{street.get('href')}")
                 html1 = BS(street_r.content, 'html.parser')
