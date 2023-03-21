@@ -83,4 +83,6 @@ print(f"Затраченное время на парсинг {finish//60} ми�
 
 df = df.drop_duplicates()
 df = df.sort_values(by='Address', ascending=True)
+for row in df.values:
+    row[2] = " " + row[2]
 df.to_csv(f'{file_dir}/Stavropol.csv', sep='\t', index= False, encoding="utf-16")
